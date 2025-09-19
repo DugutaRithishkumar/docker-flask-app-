@@ -12,9 +12,7 @@ USER appuser
 # Copy only the requirements file first to leverage Docker cache
 COPY requirements.txt .
 
-# Install Python packages
-# --no-cache-dir keeps the image smaller
-# --user installs packages in the user's home directory
+# Install Python packages for the new user
 RUN pip install --no-cache-dir --user -r requirements.txt
 
 # Copy the rest of your application code
@@ -24,5 +22,7 @@ COPY . .
 EXPOSE 8000
 
 # Command to run when the container starts
-# The path needs to be updated to the user's local bin
-CMD ["/home/appuser/.local/bin/python", "app.py"]
+# Use the system python, which is already in the PATH
+CMD ["python", "app.py"]
+
+
